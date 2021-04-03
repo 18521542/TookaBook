@@ -1,30 +1,19 @@
 var express = require("express")
-var db = require("./database")
+var AccountApi = require("./Routes/AccountApi")
 
+//init server by express
 var app = express();
 
+//config port
 var port = 1234;
 
+//hello express
 app.get("/", function(req, res){
     res.send("Hello Express");
 })
 
-app.get("/login",function(req,res){
-    //res.writeHead(200, {'Content-Type':'application/json'});
+//handle all api here
+AccountApi(app);
 
-    var username = req.query.username;
-    var password = req.query.password;
-
-
-    db.Login
-    (
-        username, 
-        password, 
-        function(rs)
-        {
-            res.send(JSON.stringify(rs))
-        }
-    )
-})
 
 app.listen(port);

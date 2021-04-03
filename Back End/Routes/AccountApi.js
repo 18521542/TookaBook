@@ -6,7 +6,10 @@ var account = require("../Models/Account")
 module.exports = function(app){
 
     //app.get("/login", loginfunc(req,res))
-    app.get("/login",function(req,res){
+
+
+    //app.get("/update", update)
+    app.get("/login", function(req,res){
         //res.writeHead(200, {'Content-Type':'application/json'});
     
         console.log( req.query.username)

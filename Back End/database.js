@@ -67,7 +67,7 @@ exports.Login = function(username, password, callbackQuerry){
             }
             else {
                 rs=false;
-                callbackQuerry("no data found")
+                //callbackQuerry("no data found")
             }
             callbackQuerry(result);
         }

@@ -7,16 +7,8 @@ var app = express();
 //config port
 var port = 1234;
 
-//hello express
-app.get("/", function(req, res){
-    res.send("Hello Express");
-})
+app.get("/", (req, res) => res.send("Hello Express"))
 
 //handle all api here
 AccountApi(app);
-
-//Book
-//BookApi(app)
-
-
 app.listen(port);

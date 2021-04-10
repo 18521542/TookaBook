@@ -1,22 +1,33 @@
-var express = require("express")
-var AccountApi = require("./Routes/AccountApi")
-
+var express = require("express");
+var dotenv = require("dotenv");
+var AccountApi = require("./Routes/AccountApi");
+var bookRoutes = require("./Routes/bookRoutes");
+var colors = require("colors");
 //init server by express
 var app = express();
 
 //config port
-var port = 1234;
+dotenv.config();
+
 
 //hello express
-app.get("/", function(req, res){
-    res.send("Hello Express");
-})
+app.get("/", function (req, res) {
+  res.send("API is running...");
+});
 
-//handle all api here
+
+app.use("/api/books", bookRoutes);
 AccountApi(app);
 
 //Book
 //BookApi(app)
 
 
-app.listen(port);
+const PORT = process.env.PORT || 5000;
+
+app.listen(
+  PORT,
+  console.log(
+    `The server is running in development mode on port ${PORT}`.yellow.bold
+  )
+);

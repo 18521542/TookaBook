@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'bookstoremanagement'
+    database: 'BookStoreManagement'
 })
 
 
@@ -22,10 +22,10 @@ exports.connect = function(){
     connected=1;
     connection.connect(function (err) {
         if(!err) {
-            console.log("DB connected");
+            console.log("DB connected".cyan.underline);
         }
         else {
-            console.log("err");
+            console.log(`${err}`.red.underline);
         }
     })
 }

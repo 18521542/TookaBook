@@ -6,10 +6,10 @@ var connected = 0;
 
 //config
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'bookstoremanagement'
+    host: '192.168.64.2',
+    user: 'username',
+    password: 'password',
+    database: 'BookStoreManagement'
 })
 
 

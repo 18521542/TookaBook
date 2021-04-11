@@ -7,8 +7,6 @@ module.exports = {
     console.log(req.query.password)
     var username = req.query.username;
     var password = req.query.password;
-
-
     account.Login
     (
         username,

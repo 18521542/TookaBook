@@ -1,8 +1,12 @@
 var express = require("express");
-var { getBooks, getBookById } = require("../Controllers/bookControllers");
+var {
+  getBooks,
+  getBookById,
+  createBook,
+} = require("../Controllers/bookControllers");
 var router = express.Router();
 
-router.get("/", getBooks);
+router.route("/").get(getBooks).post(createBook);
 
 router.get("/:id", getBookById);
 

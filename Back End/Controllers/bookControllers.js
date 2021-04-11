@@ -1,4 +1,5 @@
 var Book = require("../Models/bookModel");
+//var asyncHandler = require("express-async-handler");
 
 // @desc Fetch all Books
 // @route Get/api/books
@@ -28,4 +29,28 @@ const getBookById = async (req, res) => {
   });
 };
 
-module.exports = { getBooks, getBookById };
+// @desc    Create a new book
+// @route   POST /api/books
+// @access  Public
+const createBook = async (req, res) => {
+  //Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty",
+    });
+  }
+
+  //Create new book
+  const newbook = new Book({
+    TenSach: req.body.TenSach,
+    MaTheLoai: parseInt(req.body.MaTheLoai),
+    NhaXuatBan: req.body.NhaXuatBan,
+    NamXuatBan: parseInt(req.body.NamXuatBan),
+    SoLuongTon: parseInt(req.body.SoLuongTon),
+    DonGiaNhap: parseFloat(req.body.DonGiaNhap),
+  });
+
+  Book.create(newbook, (result) => {});
+};
+
+module.exports = { getBooks, getBookById, createBook };

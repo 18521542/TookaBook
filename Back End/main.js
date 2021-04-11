@@ -3,10 +3,15 @@ var dotenv = require("dotenv");
 var AccountApi = require("./Routes/AccountApi");
 var bookRoutes = require("./Routes/bookRoutes");
 var db = require("./Models/DatabaseAccessHelper");
+const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
 var colors = require("colors");
 //init server by express
 var app = express();
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //config port
 dotenv.config();

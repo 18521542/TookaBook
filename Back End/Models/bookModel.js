@@ -1,22 +1,22 @@
 const db = require("./DatabaseAccessHelper");
 
 const Book = function (book) {
-  this.maSach = book.maSach;
-  this.tenSach = book.tenSach;
-  this.maTheLoai = book.maTheLoai;
-  this.nhaXuatBan = book.nhaXuatBan;
-  this.namXuatBan = book.namXuatBan;
-  this.soLuongTon = book.soLuongTon;
-  this.donGiaNhap = book.donGiaNhap;
+  this.MaSach = book.MaSach;
+  this.TenSach = book.TenSach;
+  this.MaTheLoai = book.MaTheLoai;
+  this.NhaXuatBan = book.NhaXuatBan;
+  this.NamXuatBan = book.NamXuatBan;
+  this.SoLuongTon = book.SoLuongTon;
+  this.DonGiaNhap = book.DonGiaNhap;
 };
 
 Book.create = (newBook, result) => {
   var conn = db.getConnection();
-  var sqlString = "INSERT INTO BOOK SET ?";
+  var sqlString = "INSERT INTO SACH SET ?";
   conn.query(sqlString, newBook, (err, res) => {
     if (err) {
       console.log("error", err);
-      result(err, null);
+      result(err);
       return;
     } else {
       console.log(`Created book: ${res.MaSach}`.yellow.bold);

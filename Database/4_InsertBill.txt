@@ -1,0 +1,8 @@
+-- Add bill
+Call USP_AddBill('1999-15-05','4000','1000','3000',1);
+Call USP_AddBillInfo('1','2','2000','4000');
+Call USP_AddBillInfo('2','3','2000','4000');
+
+Call USP_AddBill('1999-15-05','20000','20000','0',2);
+Call USP_AddBillInfo('4','1','20000','20000');
+

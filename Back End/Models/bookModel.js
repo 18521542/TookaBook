@@ -26,39 +26,35 @@ Book.create = (newBook, result) => {
 
 Book.findById = (maSach, result) => {
   var conn = db.getConnection();
-  var sqlString = `Select * from Book where MaSach = ${maSach}`;
+  var sqlString = `Select * from SACH where MaSach = ${maSach}`;
   conn.query(sqlString, (err, res) => {
     if (err) {
       console.log(err);
       console.log("error", err);
-      result(err, null);
+      result(err);
       return;
     }
 
     if (res.length) {
       console.log("Found book:".yellow.bold, res[0]);
-      result(null, res[0]);
+      result(res[0]);
       return;
     }
 
-    result({ kind: "not_found" }, null);
+    result({ kind: "not_found" });
   });
 };
-
-Book.getAll = (result) => {
+Book.getAll = function (result) {
   var conn = db.getConnection();
-  var sqlString = `Select * from Book`;
+  var sqlString = `Select * from SACH`;
 
   conn.query(sqlString, (err, res) => {
     if (err) {
       console.log(err);
-      console.log("error", err);
-      result(err, null);
+      console.log("error:", err);
       return;
     }
-
-    console.log(res);
-    result(null, res);
+    result(res);
   });
 };
 

@@ -4,12 +4,12 @@ var db = require ('./DatabaseAccessHelper')
 exports.Login = function(username, password, callbackQuerry){
     db.connect();
     var result = false;
-    
+
     //var sqlString = "Call USP_Login('"+ username + "','"+password+"')";
     var sqlString="Select * from account where username ='"+username+"'";
-    
+
     var conn = db.getConnection();
-    conn.query(sqlString, 
+    conn.query(sqlString,
     function(err, rs, fields)
     {
         if(!err){

@@ -1,0 +1,14 @@
+--AddBook: name, cateID, publishCom, publishYear and call USP_AddBookAuthor(authorID)
+CALL USP_AddBook('Friend of The Jungle', 2,'Kim dong','1999');
+CALL USP_AddBookAuthor(2);
+CALL USP_AddBookAuthor(1);
+
+CALL USP_AddBook('Book Of Eli', 1,'Kim dong','1981');
+CALL USP_AddBookAuthor(1);
+
+CALL USP_AddBook('The wild wolf', 3,'Tuoi tre','1998');
+CALL USP_AddBookAuthor(2);
+CALL USP_AddBookAuthor(1);
+
+CALL USP_AddBook('Machine Learning', 4,'Kim dong','1999');
+CALL USP_AddBookAuthor(1);

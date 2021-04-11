@@ -1,0 +1,18 @@
+-- Add author
+CALL USP_AddAuthor('Jack Reacher');
+CALL USP_AddAuthor('Samule Jayson');
+
+-- Add Category
+CALL USP_AddCategory('fiction');
+CALL USP_AddCategory('Romantic');
+CALL USP_AddCategory('Literary Genre');
+CALL USP_AddCategory('Novel');
+CALL USP_AddCategory('Textbook');
+
+-- Add customer
+CALL USP_AddCustomer('Duy Trong','0987122748','myemail@mail.com','355 New York City');
+CALL USP_AddCustomer('Michelle Chen','0182373548','masdl@mail.com','422-1 Michigan Town');
+CALL USP_AddCustomer('Andrew Ngo','1987123458','myeeqwsab@mail.com','1 Stanford Str.');
+CALL USP_AddCustomer('Christian Reacher','024670738','eduyyemail@mail.com','Yale University');
+
+

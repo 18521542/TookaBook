@@ -44,6 +44,8 @@ Book.findById = (maSach, result) => {
     result({ kind: "not_found" });
   });
 };
+
+// Fetch all book in DB
 Book.getAll = function (result) {
   var conn = db.getConnection();
   var sqlString = `Select * from SACH`;

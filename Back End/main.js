@@ -1,7 +1,7 @@
 var express = require("express");
 var dotenv = require("dotenv");
 var AccountApi = require("./Routes/AccountApi");
-var bookRoutes = require("./Routes/bookRoutes");
+var BookApi = require("./Routes/bookRoutes");
 var db = require("./Models/DatabaseAccessHelper");
 const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
@@ -19,17 +19,16 @@ dotenv.config();
 //Connect Database
 db.connect();
 
-//hello express
 app.get("/", function (req, res) {
   res.send("API is running...");
 });
 
-app.use("/api/books", bookRoutes);
+//app.use("/api/books", bookRoutes);
 AccountApi(app);
+BookApi(app);
 
+//Middleware
 //app.use(notFound);
-//Book
-//BookApi(app)
 
 const PORT = process.env.PORT || 5000;
 

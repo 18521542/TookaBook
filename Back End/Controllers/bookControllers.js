@@ -5,7 +5,7 @@ var Book = require("../Models/bookModel");
 // @route Get/api/books
 // @access Public
 const getBooks = async (req, res) => {
-  Book.getAll((result) => {
+  await Book.getAll((result) => {
     if (result) {
       res.send(JSON.stringify(result));
     } else {
@@ -19,7 +19,7 @@ const getBooks = async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Public
 const getBookById = async (req, res) => {
-  Book.findById(req.params.id, (result) => {
+  await Book.findById(req.params.id, (result) => {
     if (result) {
       res.send(JSON.stringify(result));
     } else {
@@ -41,16 +41,15 @@ const createBook = async (req, res) => {
   }
 
   //Create new book
-  const newbook = new Book({
+  const bookData = {
     TenSach: req.body.TenSach,
     MaTheLoai: parseInt(req.body.MaTheLoai),
     NhaXuatBan: req.body.NhaXuatBan,
     NamXuatBan: parseInt(req.body.NamXuatBan),
-    SoLuongTon: parseInt(req.body.SoLuongTon),
-    DonGiaNhap: parseFloat(req.body.DonGiaNhap),
-  });
-
-  Book.create(newbook, (result) => {});
+    MaTacGia: req.body.MaTacGia,
+  };
+  //console.log(bookData);
+  await Book.create(bookData, (result) => {});
 };
 
 module.exports = { getBooks, getBookById, createBook };

@@ -1,4 +1,5 @@
 const db = require("./DatabaseAccessHelper");
+const sqlString = require("sqlstring");
 
 const Book = function (book) {
   this.MaSach = book.MaSach;
@@ -12,51 +13,56 @@ const Book = function (book) {
 
 Book.create = (newBook, result) => {
   var conn = db.getConnection();
-  var sqlString = "INSERT INTO SACH SET ?";
-  conn.query(sqlString, newBook, (err, res) => {
+  var dataBook = [
+    newBook.TenSach,
+    newBook.MaTheLoai,
+    newBook.NhaXuatBan,
+    newBook.NamXuatBan,
+    newBook.MaTacGia,
+  ];
+
+  //Todo: Need to check if this book is already existed
+
+  var queryString = sqlString.format(
+    "CALL USP_AddBook(?,?,?,?); CALL USP_AddBookAuthor(?)",
+    dataBook
+  );
+  conn.query(queryString, (err, res) => {
     if (err) {
-      console.log("error", err);
-      result(err);
-      return;
+      //Todo: Handle error
+      throw err;
     } else {
-      console.log(`Created book: ${res.MaSach}`.yellow.bold);
+      console.log(`Created book ${newBook.TenSach} successfully`);
     }
   });
 };
 
 Book.findById = (maSach, result) => {
   var conn = db.getConnection();
-  var sqlString = `Select * from SACH where MaSach = ${maSach}`;
-  conn.query(sqlString, (err, res) => {
+  var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
+  conn.query(queryString, (err, res) => {
     if (err) {
-      console.log(err);
-      console.log("error", err);
-      result(err);
+      throw err;
+    }
+    if (res[0].length) {
+      console.log("Found book:".yellow.bold, res[0][0]);
+      result(res[0][0]);
       return;
     }
-
-    if (res.length) {
-      console.log("Found book:".yellow.bold, res[0]);
-      result(res[0]);
-      return;
-    }
-
-    result({ kind: "not_found" });
   });
 };
 
-// Fetch all book in DB
-Book.getAll = function (result) {
+// Fetch all book in DataBase
+Book.getAll = function (callBack) {
   var conn = db.getConnection();
-  var sqlString = `Select * from SACH`;
+  var queryString = sqlString.format("CALL USP_GetBook()");
 
-  conn.query(sqlString, (err, res) => {
+  conn.query(queryString, (err, results, fields) => {
     if (err) {
-      console.log(err);
-      console.log("error:", err);
-      return;
+      throw err;
     }
-    result(res);
+
+    callBack(results[0]);
   });
 };
 

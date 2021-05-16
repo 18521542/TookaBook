@@ -1,15 +1,16 @@
 var express = require("express");
 
 var {
-  getBooks,
+  getBook,
   getBookById,
-  createBook,
+  addBook,
+  updateBook,
 } = require("../Controllers/bookControllers");
 
 module.exports = (app) => {
   var router = express.Router();
-  router.route("/").get(getBooks).post(createBook);
-  router.get("/:id", getBookById);
+  router.route("/").get(getBook).post(addBook);
+  router.route("/:id").get(getBookById).patch(updateBook);
 
   app.use("/api/books", router);
 };

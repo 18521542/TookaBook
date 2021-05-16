@@ -1,7 +1,8 @@
 var express = require("express");
-var dotenv = require("dotenv");
+require("dotenv").config();
 var AccountApi = require("./Routes/AccountApi");
 var BookApi = require("./Routes/bookRoutes");
+var BillApi= require("./Routes/billRoutes");
 var db = require("./Models/DatabaseAccessHelper");
 const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
@@ -14,7 +15,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //config port
-dotenv.config();
 
 //Connect Database
 db.connect();
@@ -23,9 +23,9 @@ app.get("/", function (req, res) {
   res.send("API is running...");
 });
 
-//app.use("/api/books", bookRoutes);
 AccountApi(app);
 BookApi(app);
+BillApi(app);
 
 //Middleware
 //app.use(notFound);

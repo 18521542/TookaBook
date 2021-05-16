@@ -1,17 +1,10 @@
 const db = require("./DatabaseAccessHelper");
 const sqlString = require("sqlstring");
 
-const Book = function (book) {
-  this.MaSach = book.MaSach;
-  this.TenSach = book.TenSach;
-  this.MaTheLoai = book.MaTheLoai;
-  this.NhaXuatBan = book.NhaXuatBan;
-  this.NamXuatBan = book.NamXuatBan;
-  this.SoLuongTon = book.SoLuongTon;
-  this.DonGiaNhap = book.DonGiaNhap;
+const Book =  {
 };
 
-Book.create = (newBook, result) => {
+Book.addBook= (newBook, result) => {
   var conn = db.getConnection();
   var dataBook = [
     newBook.TenSach,
@@ -21,7 +14,7 @@ Book.create = (newBook, result) => {
     newBook.MaTacGia,
   ];
 
-  //Todo: Need to check if this book is already existed
+  //Todo: Need to check if this book is already created
 
   var queryString = sqlString.format(
     "CALL USP_AddBook(?,?,?,?); CALL USP_AddBookAuthor(?)",
@@ -37,7 +30,7 @@ Book.create = (newBook, result) => {
   });
 };
 
-Book.findById = (maSach, result) => {
+Book.getBookById = (maSach, callBack) => {
   var conn = db.getConnection();
   var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
   conn.query(queryString, (err, res) => {
@@ -46,14 +39,14 @@ Book.findById = (maSach, result) => {
     }
     if (res[0].length) {
       console.log("Found book:".yellow.bold, res[0][0]);
-      result(res[0][0]);
+      callBack(res[0][0]);
       return;
     }
   });
 };
 
 // Fetch all book in DataBase
-Book.getAll = function (callBack) {
+Book.getBook = function (callBack) {
   var conn = db.getConnection();
   var queryString = sqlString.format("CALL USP_GetBook()");
 
@@ -63,6 +56,42 @@ Book.getAll = function (callBack) {
     }
 
     callBack(results[0]);
+  });
+};
+
+Book.updateBook = function (updateData, callBack) {
+  var conn = db.getConnection();
+  var dataBook = [
+    updateData.MaSach,
+    updateData.TenSach,
+    updateData.MaTheLoai,
+    updateData.NhaXuatBan,
+    updateData.NamXuatBan,
+    updateData.MaTacGia,
+  ];
+  var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
+  conn.query(queryString, (err, res) => {
+    if (err) {
+      throw err;
+    }
+    if (!res) {
+      callBack({ message: "Book not found!" });
+    }
+    if (res[0].length) {
+      console.log("Found book:".yellow.bold, res[0][0]);
+      var queryString = sqlString.format(
+        `CALL USP_UpdateBook(?,?,?,?); CALL USP_UpdateBookAuthor(${updateData.MaSach},?)`,
+        dataBook
+      );
+      conn.query(queryString, (err, res) => {
+        if (err) {
+          //Todo: Handle error
+          throw err;
+        } else {
+          console.log(`Updated book ${updateData.TenSach} successfully`);
+        }
+      });
+    }
   });
 };
 

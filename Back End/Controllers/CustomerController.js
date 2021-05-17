@@ -28,9 +28,9 @@ module.exports = {
   },
 
   // Handle for geting all of the lists of the customers
-  getList: async function(req,res) {
-    customerApi.getCustomers(
-      (result) => res.send(JSON.stringify(result)),
+  getList: function(req,res) {
+     customerApi.getCustomers(
+       (result) => res.send(JSON.stringify(result)),
     );
   },
 
@@ -49,5 +49,10 @@ module.exports = {
     customerApi.searchCustomer(id,
       result => res.send(result)
     );
+  },
+
+  // Update the customer
+  patchUpdate: function(req,res) {
+    // sth in here (not done)
   }
 };

@@ -5,8 +5,8 @@ var SqlString = require('sqlString');
 exports.getRevenueReport = (date, callBack) => {
   var conn = db.getConnection();
   const dataDate = [
-    date.thang,
-    date.nam,
+    date.Thang,
+    date.Nam,
   ]
   sql = SqlString.format('CALL USP_GetReportRevenue(?,?)',dataDate);
   conn.query(sql, function(err, result,fields) {
@@ -20,8 +20,8 @@ exports.getRevenueReport = (date, callBack) => {
 exports.getInventoryReport = (date, callBack) => {
   var conn = db.getConnection();
   const dataDate = [
-    date.thang,
-    date.nam,
+    date.Thang,
+    date.Nam,
   ]
   sql = SqlString.format('CALL USP_GetReportInventory(?,?)',dataDate);
   conn.query(sql, function(err, result,fields) {

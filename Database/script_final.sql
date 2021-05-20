@@ -31,16 +31,16 @@ CREATE TABLE SACH
 	DonGiaNhap FLOAT NOT NULL DEFAULT 0
 );
 
-alter table SACH 
-add constraint SACH_THELOAISACH_FK 
+alter table SACH
+add constraint SACH_THELOAISACH_FK
 foreign key(MaTheLoai) references THELOAISACH(MaTheLoai);
 
-alter table CT_TACGIA 
-add constraint CT_TACGIA_SACH_FK 
+alter table CT_TACGIA
+add constraint CT_TACGIA_SACH_FK
 foreign key(MaSach) references SACH(MaSach);
 
-alter table CT_TACGIA 
-add constraint CT_TACGIA_TACGIA_FK 
+alter table CT_TACGIA
+add constraint CT_TACGIA_TACGIA_FK
 foreign key(MaTacGia) references TACGIA(MaTacGia);
 
 CREATE TABLE PHIEUNHAPSACH
@@ -56,16 +56,16 @@ CREATE TABLE CT_PHIEUNHAPSACH
 	MaSach INT NOT NULL ,
 	SoLuongNhap INT NOT NULL DEFAULT 0,
 	DonGiaNhap FLOAT NOT NULL DEFAULT 0,
-	ThanhTien FLOAT NOT NULL DEFAULT 0,	
+	ThanhTien FLOAT NOT NULL DEFAULT 0,
 	CONSTRAINT PK_CTPHIEUNHAPSACH PRIMARY KEY (SoPhieuNhap,MaSach)
 );
 
-alter table CT_PHIEUNHAPSACH 
-add constraint CT_PHIEUNHAPSACH_PHIEUNHAPSACH_FK 
+alter table CT_PHIEUNHAPSACH
+add constraint CT_PHIEUNHAPSACH_PHIEUNHAPSACH_FK
 foreign key(SoPhieuNhap) references PHIEUNHAPSACH(SoPhieuNhap);
 
-alter table CT_PHIEUNHAPSACH 
-add constraint CT_PHIEUNHAPSACH_SACH_FK 
+alter table CT_PHIEUNHAPSACH
+add constraint CT_PHIEUNHAPSACH_SACH_FK
 foreign key(MaSach) references SACH(MaSach);
 
 CREATE TABLE KHACHHANG
@@ -88,8 +88,8 @@ CREATE TABLE HOADON
 	ConLai FLOAT NOT NULL DEFAULT 0
 );
 
-alter table HOADON 
-add constraint HOADON_KHACHHANG_FK 
+alter table HOADON
+add constraint HOADON_KHACHHANG_FK
 foreign key(MaKhachHang) references KHACHHANG(MaKhachHang);
 
 CREATE TABLE CT_HOADON
@@ -102,12 +102,12 @@ CREATE TABLE CT_HOADON
 	CONSTRAINT PK_CTHD PRIMARY KEY(SoHoaDon,MaSach)
 );
 
-alter table CT_HOADON 
-add constraint CT_HOADON_HOADON_FK 
+alter table CT_HOADON
+add constraint CT_HOADON_HOADON_FK
 foreign key(SoHoaDon) references HOADON(SoHoaDon);
 
-alter table CT_HOADON 
-add constraint CT_HOADON_SACH_FK 
+alter table CT_HOADON
+add constraint CT_HOADON_SACH_FK
 foreign key(MaSach) references SACH(MaSach);
 
 CREATE TABLE BAOCAOTON
@@ -121,8 +121,8 @@ CREATE TABLE BAOCAOTON
 	CONSTRAINT PK_ReportCountInfo PRIMARY KEY( Thang,Nam,MaSach)
 );
 
-alter table BAOCAOTON 
-add constraint BAOCAOTON_SACH_FK 
+alter table BAOCAOTON
+add constraint BAOCAOTON_SACH_FK
 foreign key(MaSach) references SACH(MaSach);
 
 CREATE TABLE BAOCAODOANHTHU
@@ -134,8 +134,8 @@ CREATE TABLE BAOCAODOANHTHU
     TongTien FLOAT,
     CONSTRAINT PK_ReportSale PRIMARY KEY(Thang, Nam, MaSach)
 );
-alter table BAOCAODOANHTHU 
-add constraint BAOCAODOANHTHU_SACH_FK 
+alter table BAOCAODOANHTHU
+add constraint BAOCAODOANHTHU_SACH_FK
 foreign key(MaSach) references SACH(MaSach);
 
 CREATE TABLE Account
@@ -144,7 +144,7 @@ CREATE TABLE Account
 	password VARCHAR(255),
 	type int,
     	Realname VARCHAR(255),
-	PhoneNumber VARCHAR(255),	
+	PhoneNumber VARCHAR(255),
 	Email VARCHAR(255),
 	Address VARCHAR(255)
 );
@@ -192,7 +192,7 @@ BEGIN
  UPDATE account
  SET account.PASSWORD=p_password, account.type=p_type,
  account.RealName= p_RealName, account.PhoneNumber=p_PhoneNumber, account.Email=p_Email, account.Address=p_Address
- 
+
  WHERE account.username=p_username;
 end; $$
 DELIMITER ;
@@ -295,7 +295,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE USP_AddCustomer(name NVARCHAR(100),phone varchar(100),email varchar(100),address nvarchar(100))
 BEGIN
-	insert KHACHHANG(TenKhachHang,DiaChi,SoDienThoai,Email,SoTienNo) 
+	insert KHACHHANG(TenKhachHang,DiaChi,SoDienThoai,Email,SoTienNo)
     values(name,address,phone,email,0);
 END; $$
 DELIMITER ;
@@ -336,10 +336,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE USP_UpdateBook(id int,name NVARCHAR(100),categoryID int, publishCompany nvarchar(200),publishYear int)
 BEGIN
-	update SACH 
+	update SACH
     set TenSach=name,MaTheLoai=categoryID,NhaXuatBan=publishCompany,NamXuatBan=publishYear
     where MaSach=id;
-    
+
     delete from CT_TACGIA where MaSach=id;
 END; $$
 DELIMITER ;
@@ -370,7 +370,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE USP_UpdateCusTomer(customerID int,name NVARCHAR(100),phone varchar(100),email varchar(100),address nvarchar(100) )
 BEGIN
-	update KHACHHANG 
+	update KHACHHANG
     set TenKhachHang=name,SoDienThoai=phone,Email=email,DiaChi=address
     where MaKhachHang=customerID;
 END; $$
@@ -417,7 +417,7 @@ BEGIN
 			set preMonth=month-1;
 			set preYear=year;
 		end if;
-        
+
         if((select count(*) from BAOCAOTON where Thang=preMonth and Nam=preYear and MaSach=bookID)>0)
         then
 			set first=(select TonCuoi from BAOCAOTON where Thang=preMonth and Nam=preYear and MaSach=bookID);
@@ -427,16 +427,16 @@ BEGIN
         if((select count(*) from CT_PHIEUNHAPSACH ct,PHIEUNHAPSACH p
 			where MaSach=bookID and ct.SoPhieuNhap=p.SoPhieuNhap and month(p.NgayLap)=month and year(p.NgayLap)=year)>0)
         then
-			set incurred=(select sum(ct.SoLuongNhap) from CT_PHIEUNHAPSACH ct,PHIEUNHAPSACH p 
+			set incurred=(select sum(ct.SoLuongNhap) from CT_PHIEUNHAPSACH ct,PHIEUNHAPSACH p
 				where MaSach=bookID and ct.SoPhieuNhap=p.SoPhieuNhap and month(p.NgayLap)=month and year(p.NgayLap)=year);
         else
 			set incurred=0;
 		end if;
-        
+
         if((select count(*) from CT_HOADON ct,HOADON h
 			where MaSach=bookID and ct.SoHoaDon=h.SoHoaDon and month(h.NgayLap)=month and year(h.NgayLap)=year)>0)
         then
-			set last=first+incurred-(select sum(ct.SoLuong) from CT_HOADON ct,HOADON h 
+			set last=first+incurred-(select sum(ct.SoLuong) from CT_HOADON ct,HOADON h
 										where MaSach=bookID and ct.SoHoaDon=h.SoHoaDon and month(h.NgayLap)=month and year(h.NgayLap)=year);
 		else
 			set last=first+incurred;
@@ -471,7 +471,7 @@ CREATE PROCEDURE USP_ImportReportRevenue(month int,year int,bookID int)
 BEGIN
 	declare count int;
     declare money float;
-    if((select count(*) from CT_HOADON ct,HOADON h 
+    if((select count(*) from CT_HOADON ct,HOADON h
 		where MaSach=bookID and ct.SoHoaDon=h.SoHoaDon and month(h.NgayLap)=month and year(h.NgayLap)=year)>0)
     then
 		set count=(select sum(ct.SoLuong) from CT_HOADON ct,HOADON h
@@ -482,7 +482,7 @@ BEGIN
 		set count=0;
         set money=0;
 	end if;
-    
+
     insert BAOCAODOANHTHU values(
 		month,
         year,
@@ -509,8 +509,8 @@ CREATE table phieuthutien
 	TienThu FLOAT DEFAULT 0
 );
 
-Alter table phieuthutien 
-add constraint phieuthutien_KHACHHANG_FK 
+Alter table phieuthutien
+add constraint phieuthutien_KHACHHANG_FK
 foreign key(MaKhachHang) references KHACHHANG(MaKhachHang);
 
 DELIMITER $$
@@ -519,7 +519,7 @@ BEGIN
 	insert phieuthutien(MaKhachHang,NgayLap,TienThu)
     values(customerID,dateInput,money);
 
-    update KHACHHANG set SoTienNo=SoTienNo-money where MaKhachHang=customerID; 
+    update KHACHHANG set SoTienNo=SoTienNo-money where MaKhachHang=customerID;
 END; $$
 DELIMITER ;
 DELIMITER $$

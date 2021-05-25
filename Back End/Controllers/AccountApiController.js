@@ -21,5 +21,16 @@ module.exports = {
   update: function(req,res)
   {
     console.log("this is an area for update account service")
+  },
+
+  register: function(req,res){
+    
+    console.log("post user");
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+      console.log("Loi");
+      res.status(400).send({
+        message: "Content can not be empty",
+      });
+    }
   }
 };

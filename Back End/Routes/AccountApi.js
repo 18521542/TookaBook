@@ -3,7 +3,9 @@ const accountApiController = require("../Controllers/AccountApiController")
 //service and api
 //of every action with account
 module.exports = app => {
-    app.get("/login",accountApiController.login)
+    app.get("/user/login",accountApiController.login)
     // router for get update
-    app.get("/update",accountApiController.update)
+    app.get("/user/update",accountApiController.update)
+
+    app.post("/user/register", accountApiController.register);
 }

@@ -9,6 +9,7 @@ var db = require("./Models/DatabaseAccessHelper");
 const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
 var colors = require("colors");
+const CategoryRoutes = require("./Routes/CategoryRoutes");
 //init server by express
 var app = express();
 
@@ -30,6 +31,7 @@ BookApi(app);
 BillApi(app);
 CustomerRoute(app);
 ReportRoute(app);
+CategoryRoutes(app);
 
 //Middleware
 //app.use(notFound);

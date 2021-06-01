@@ -85,4 +85,43 @@ const updateBook = async (req, res) => {
   });
 };
 
-module.exports = { getBook, getBookById, addBook, updateBook };
+const UpdateBook = async (req,res) => {
+  if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+    res.status(404);
+    res.send({message:"content could not be empty"});
+    return
+  }
+
+  //check book if exist
+  var Data = {
+    MaSach: req.body.MaSach,
+    TenSach: req.body.TenSach,
+    MaTheLoai: parseInt(req.body.MaTheLoai),
+    NhaXuatBan: req.body.NhaXuatBan,
+    NamXuatBan: parseInt(req.body.NamXuatBan),
+    DanhSachTacGia: req.body.DanhSachTacGia,
+  };
+
+  var updateResult = false;
+  const UpdateBookFirst = await (() => {
+    return new Promise((resolve, reject) => {
+      Book.UpdateBook(Data, (result) => {
+        updateResult = result;
+        console.log(result)
+        //console.log(updateResult)
+        resolve("Finish updating")
+      })
+    })
+  })();
+
+  console.log(updateResult)
+
+  if(updateResult){
+    res.status(200).send({message:"Update success"});
+  }
+  else{
+    res.status(404).send({message:"Update fail"});
+  }
+}
+
+module.exports = { getBook, getBookById, addBook, updateBook, UpdateBook };

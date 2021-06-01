@@ -38,6 +38,7 @@ Book.getBookById = (maSach, callBack) => {
   var conn = db.getConnection();
   var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
 
+  
   var listAuthors = [];
   Author.getAuthorByBookID(maSach, (result)=>{
     listAuthors = JSON.parse(JSON.stringify(result[0]));
@@ -48,11 +49,8 @@ Book.getBookById = (maSach, callBack) => {
       throw err;
     }
     if (res[0].length) {
-      console.log("Found book:".yellow.bold, res[0][0]);
       res[0][0]["DanhSachTacGia"] = listAuthors
-      console.log(res[0][0]);
       callBack(res[0][0]);
-      return;
     }
   });
 };
@@ -105,6 +103,63 @@ Book.updateBook = function (updateData, callBack) {
       });
     }
   });
+};
+
+Book.UpdateBook = async function (updateData, callBack) {
+    var conn = db.getConnection();
+    var isUpdated= false;
+    var StringCheckIsExist = sqlString.format(`CALL USP_GetBookByID(${updateData.MaSach})`);
+    var StringUpdateBook = "CALL USP_UpdateBook("+ updateData.MaSach+ 
+    ",'"+updateData.TenSach+
+    "','"+updateData.MaTheLoai+
+    "','"+updateData.NhaXuatBan+
+    "','"+updateData.NamXuatBan+
+    "')"
+
+  //Check if have book in database
+  var isExist = false;
+  
+  // Func Check id of all books
+  const checkBookisExist = await (() => {
+    return new Promise((resolve, reject) => {
+      conn.query(StringCheckIsExist, function(err, result, fields) {
+        
+        if(result[0].length>0){
+          isExist = true;
+        }
+        resolve("Finish checking");
+      })
+    })
+  })();
+  
+  if(isExist){
+    //Update book first
+    const UpdateBookFirst = await (() => {
+      return new Promise((resolve, reject) => {
+        conn.query(StringUpdateBook, function(err, result, fields) {
+          if(err){
+            throw reject(callBack(isUpdated));
+          }
+          resolve("Finish update book");
+        })
+      })
+    })();
+    
+    //then
+    updateData.DanhSachTacGia.map(function await(DanhSachTacGia) {
+      let qr = sqlString.format(
+        `CALL USP_UpdateBookAuthor(${updateData.MaSach},${DanhSachTacGia.MaTacGia});`
+      );
+      conn.query(qr, (error, response) => {
+        if (error) {
+          callBack(false)
+        } else {
+          callBack(true)
+        }
+      });
+    });
+  }
+  
 };
 
 module.exports = Book;

@@ -12,3 +12,12 @@ exports.getCategories = function(callBack){
         callBack(results[0]);
     });
 }
+
+exports.addCategory = function(newCategory, callBack){
+    //db.connect();
+    var conn = db.getConnection();
+    var queryString = sqlString.format("Call USP_AddCategory(?)", newCategory);
+    conn.query(queryString, (err, rs)=>{
+        callBack(rs)
+    })
+}

@@ -11,5 +11,25 @@ module.exports = {
                 res.send({data:"not found"});
             }
         });
+    },
+
+    addCategory: async function(req,res){
+
+        //console.log(!req.body)
+        if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+            res.status(404);
+            res.send({message:"content could not be empty"});
+            return
+        }
+
+        await categories.addCategory(categoryName, (result)=>{
+            if(result){
+                res.status(200).send({message:"Add new category success"});
+            }
+            else{
+                res.status(404);
+                res.send({message:"Add new category fail"});
+            }
+        })
     }
 }

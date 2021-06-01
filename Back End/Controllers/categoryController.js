@@ -22,6 +22,7 @@ module.exports = {
             return
         }
 
+        categoryName = req.body.name;
         await categories.addCategory(categoryName, (result)=>{
             if(result){
                 res.status(200).send({message:"Add new category success"});

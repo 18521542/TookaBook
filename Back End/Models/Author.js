@@ -21,3 +21,11 @@ exports.addAuthor = function(newAuthor, callBack){
         callBack(rs)
     })
 }
+
+exports.getAuthorByBookID = function (bookID, callBack){
+    var conn = db.getConnection();
+    var queryString = sqlString.format("Call USP_GetAuthorByBook(?)", bookID);
+    conn.query(queryString, (err,rs)=>{
+        callBack(rs)
+    })
+}

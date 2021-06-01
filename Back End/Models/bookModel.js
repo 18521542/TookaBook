@@ -1,5 +1,7 @@
 const db = require("./DatabaseAccessHelper");
 const sqlString = require("sqlstring");
+var Author = require("./Author");
+const { json } = require("body-parser");
 
 const Book =  {
 };
@@ -13,6 +15,8 @@ Book.addBook= (newBook, result) => {
     newBook.NamXuatBan,
     newBook.MaTacGia,
   ];
+
+  
 
   //Todo: Need to check if this book is already created
 
@@ -33,12 +37,20 @@ Book.addBook= (newBook, result) => {
 Book.getBookById = (maSach, callBack) => {
   var conn = db.getConnection();
   var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
+
+  var listAuthors = [];
+  Author.getAuthorByBookID(maSach, (result)=>{
+    listAuthors = JSON.parse(JSON.stringify(result[0]));
+  })
+
   conn.query(queryString, (err, res) => {
     if (err) {
       throw err;
     }
     if (res[0].length) {
       console.log("Found book:".yellow.bold, res[0][0]);
+      res[0][0]["DanhSachTacGia"] = listAuthors
+      console.log(res[0][0]);
       callBack(res[0][0]);
       return;
     }

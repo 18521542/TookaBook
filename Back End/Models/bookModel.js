@@ -124,14 +124,23 @@ Book.UpdateBook = async function (updateData, callBack) {
     return new Promise((resolve, reject) => {
       conn.query(StringCheckIsExist, function(err, result, fields) {
         
-        if(result[0].length>0){
-          isExist = true;
+        if(err){
+          isExist=false;
+          reject(err)
+        }
+        else{
+          if(result[0].length>0){
+            isExist = true;
+          }
+          else{
+            isExist = false;
+          }
         }
         resolve("Finish checking");
       })
     })
   })();
-  
+
   if(isExist){
     //Update book first
     const UpdateBookFirst = await (() => {
@@ -158,6 +167,9 @@ Book.UpdateBook = async function (updateData, callBack) {
         }
       });
     });
+  }
+  else{
+    callBack(isUpdated)
   }
   
 };

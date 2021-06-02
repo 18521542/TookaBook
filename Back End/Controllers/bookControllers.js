@@ -102,26 +102,27 @@ const UpdateBook = async (req,res) => {
     DanhSachTacGia: req.body.DanhSachTacGia,
   };
 
-  var updateResult = false;
-  const UpdateBookFirst = await (() => {
-    return new Promise((resolve, reject) => {
-      Book.UpdateBook(Data, (result) => {
-        updateResult = result;
-        console.log(result)
-        //console.log(updateResult)
-        resolve("Finish updating")
-      })
-    })
-  })();
-
-  console.log(updateResult)
-
-  if(updateResult){
-    res.status(200).send({message:"Update success"});
-  }
-  else{
-    res.status(404).send({message:"Update fail"});
-  }
+  // var updateResult = false;
+  // const UpdateBookFirst = await (() => {
+  //   return new Promise((resolve, reject) => {
+  //     Book.UpdateBook(Data, (result) => {
+  //       updateResult = result;
+  //       console.log(result)
+  //       //console.log(updateResult)
+  //       resolve("Finish updating")
+  //     })
+  //   })
+  // })();
+  await Book.UpdateBook(Data, (result) =>{
+    if(result){
+      if(!res.headersSent){
+        res.status(200).send({message:"Update success"});
+      }
+    }
+    else{
+      res.status(404).send({message:"Update fail"});
+    }
+  })
 }
 
 module.exports = { getBook, getBookById, addBook, updateBook, UpdateBook };

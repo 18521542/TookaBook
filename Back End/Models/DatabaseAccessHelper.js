@@ -45,10 +45,7 @@ exports.executeQuerry = function (querryString){
       if(err){
         reject(err)
       }
-      if(rs){
-        console.log("here1")
-        resolve(rs)
-      }
+      resolve(rs)
     })
   })
 }

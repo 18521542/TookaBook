@@ -35,6 +35,8 @@ ReportRoute(app);
 CategoryRoutes(app);
 AuthorApi(app)
 
+var testApi = require("./Routes/test")
+testApi(app);
 //Middleware
 //app.use(notFound);
 

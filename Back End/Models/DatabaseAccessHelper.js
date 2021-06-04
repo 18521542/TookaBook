@@ -38,3 +38,17 @@ exports.close = function () {
 exports.getConnection = function () {
   return connection;
 };
+
+exports.executeQuerry = function (querryString){
+  return new Promise((resolve, reject) => {
+    connection.query(querryString, (err, rs)=>{
+      if(err){
+        reject(err)
+      }
+      if(rs){
+        console.log("here1")
+        resolve(rs)
+      }
+    })
+  })
+}

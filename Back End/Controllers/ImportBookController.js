@@ -16,10 +16,23 @@ const getImportBookByID = function(req, res){
 }
 
 const addImportBooks = function(req,res){
-    var data = "volla";
-    importBook.addImportBook(data);
-
-    res.status(200).send({message:"lala"})
+    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+        res.status(404);
+        res.send({message:"content could not be empty"});
+        return
+    }
+    var data = {
+        NgayLap: req.body.NgayLap,
+        TongTien: req.body.TongTien,
+        DanhSachSachMua: req.body.DanhSachSachMua
+    };
+    importBook.addImportBook(data, 
+        (result) => {
+            res.status(200).send({message:"Add Import Book success"})
+        },
+        (err) => {
+            res.status(404).send({message:"Add Fail"})
+        });
 }
 
 module.exports = { getImportBookByID, addImportBooks }

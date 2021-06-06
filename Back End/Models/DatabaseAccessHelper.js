@@ -44,6 +44,7 @@ exports.executeQuerry = function (querryString){
     connection.query(querryString, (err, rs)=>{
       if(err){
         reject(err)
+        return;
       }
       resolve(rs)
     })

@@ -96,8 +96,8 @@ exports.getInventoryReport = async (date, callBack) => {
     })
     })();
     console.log("Imported successfully");
-
-    sqlGetReport = SqlString.format('CALL USP_GetReportInventory(?,?)', dataDate);
+    
+    sqlGetReport = SqlString.format('CALL USP_GetReportInventory(?,?)', dataDate); 
     conn.query(sqlGetReport, (err, result) => {
       callBack(result[0]);
     })

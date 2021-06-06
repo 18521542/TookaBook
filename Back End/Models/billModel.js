@@ -2,7 +2,7 @@ const db = require("./DatabaseAccessHelper");
 const sqlString = require("sqlstring");
 const Bill = {};
 
-Bill.createBill= async function (data, result) {
+Bill.createBill = async function (data, result) {
   var conn = db.getConnection();
   var dataBill = [
     data.NgayLap,
@@ -40,5 +40,27 @@ Bill.createBill= async function (data, result) {
     }
   });
 };
+
+Bill.GetBillByCustomerID = (id, callbackrs, callbackerr) => {
+  db.connect();
+  //var sql = sqlString.format("Call USP_GetBillByCustomerID(?)",id);
+  var sql = "Select * from HoaDon where MaKhachHang = "+ id +" group by SoHoaDon"
+  db.executeQuerry(sql)
+    .then((rs) => {
+      callbackrs(rs)
+    })
+    .catch((err) => callbackerr(err))
+};
+
+Bill.GetBillInfoByBillID = (id, callbackrs, callbackerr) => {
+  db.connect();
+  var sql = sqlString.format("Call USP_GetBillByBillID(?)",id)
+  db.executeQuerry(sql)
+    .then((rs) => {
+      var result = rs[0];
+      callbackrs(result)
+    })
+    .catch((err) => callbackerr(err))
+}
 
 module.exports = Bill;

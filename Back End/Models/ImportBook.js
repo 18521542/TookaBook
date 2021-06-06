@@ -12,8 +12,6 @@ const addImportBook = function (data, callBackrs, callbackerr) {
         );
         BookInfo.push(qr);
     });
-
-    
     const SqlImportBook = sqlString.format(`Call USP_AddImportBook(${data.NgayLap}, ${data.TongTien})`);
 
     //execute

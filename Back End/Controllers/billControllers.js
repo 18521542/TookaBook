@@ -1,17 +1,4 @@
 const Bill = require("../Models/billModel");
-
-// @desc Fetch all Bill
-// @route Get/api/bills
-// @access Public
-const getBill= async (req, res) => {
-};
-
-// @desc Fetch all Bill by id
-// @route Get/api/bills/id
-// @access Public
-const getBillByID = async (req, res) => {
-};
-
 // @desc    Add a  bills
 // @route   Post /api/bills
 // @access  Public
@@ -36,4 +23,44 @@ const createBill = async (req, res) => {
   });
 };
 
-module.exports = { getBill, createBill, getBillByID };
+const getBill = (req, res) => {
+  
+}
+
+const getBillByCustomerID = (req,res) => {
+  if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+    res.status(404);
+    res.send({message:"content could not be empty"});
+    return
+  }
+
+  var CusID = req.body.CusID;
+  Bill.GetBillByCustomerID(CusID, 
+    (result) => {
+        res.status(200).send(result);
+    },
+    (err) => {
+        res.status(404).send({message: "Not found"});
+    })
+}
+
+const getBillByBillID = (req, res) => {
+  if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+    res.status(404);
+    res.send({message:"content could not be empty"});
+    return
+  }
+
+  var BillID = req.body.BillID;
+  Bill.GetBillInfoByBillID(BillID, 
+    (result) => {
+      res.status(200).send(result);
+    },
+    (err) =>{
+      res.status(404).send({message: "Not found"});
+    })
+};
+
+
+
+module.exports = { getBill, createBill, getBillByBillID, getBillByCustomerID };

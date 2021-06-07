@@ -42,3 +42,19 @@ BEGIN
     GROUP by s.MaSach;
 END; $$
 DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS USP_UpdateBook; 
+DELIMITER $$
+CREATE PROCEDURE USP_UpdateBook(id int,name NVARCHAR(100),categoryID int, publishCompany nvarchar(200),publishYear int, newURL NVARCHAR(100))
+BEGIN
+	update SACH 
+    set TenSach=name,MaTheLoai=categoryID,NhaXuatBan=publishCompany,NamXuatBan=publishYear
+    where MaSach=id;
+    
+    delete from sach_url WHERE MaSach = id;
+	insert into sach_url values (id, newURL);  
+    
+    delete from CT_TACGIA where MaSach=id;
+END; $$
+DELIMITER ;

@@ -58,7 +58,7 @@ Book.getBook = function (callBack) {
   });
 };
 
-Book.updateBook = function (updateData, callBack) {
+Book.updateBook = function (updateData, callBackrs, callBackerr) {
   var conn = db.getConnection();
   var dataBook = [
     updateData.MaSach,
@@ -66,101 +66,27 @@ Book.updateBook = function (updateData, callBack) {
     updateData.MaTheLoai,
     updateData.NhaXuatBan,
     updateData.NamXuatBan,
-    updateData.MaTacGia,
+    updateData.URL
   ];
-  var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
-  conn.query(queryString, (err, res) => {
-    if (err) {
-      throw err;
-    }
-    if (!res) {
-      callBack({ message: "Book not found!" });
-    }
-    if (res[0].length) {
-      console.log("Found book:".yellow.bold, res[0][0]);
-      var queryString = sqlString.format(
-        `CALL USP_UpdateBook(?,?,?,?); CALL USP_UpdateBookAuthor(${updateData.MaSach},?)`,
-        dataBook
-      );
-      conn.query(queryString, (err, res) => {
-        if (err) {
-          //Todo: Handle error
-          throw err;
-        } else {
-          console.log(`Updated book ${updateData.TenSach} successfully`);
-        }
-      });
-    }
-  });
-};
 
-Book.UpdateBook = async function (updateData, callBack) {
-    var conn = db.getConnection();
-    var isUpdated= false;
-    var StringCheckIsExist = sqlString.format(`CALL USP_GetBookByID(${updateData.MaSach})`);
-    var StringUpdateBook = "CALL USP_UpdateBook("+ updateData.MaSach+ 
-    ",'"+updateData.TenSach+
-    "','"+updateData.MaTheLoai+
-    "','"+updateData.NhaXuatBan+
-    "','"+updateData.NamXuatBan+
-    "')"
+  var dataBookAuthor = [
+    updateData.MaSach,
+    updateData.MaTacGia
+  ]
 
-  //Check if have book in database
-  var isExist = false;
-  
-  // Func Check id of all books
-  const checkBookisExist = await (() => {
-    return new Promise((resolve, reject) => {
-      conn.query(StringCheckIsExist, function(err, result, fields) {
-        
-        if(err){
-          isExist=false;
-          reject(err)
-        }
-        else{
-          if(result[0].length>0){
-            isExist = true;
-          }
-          else{
-            isExist = false;
-          }
-        }
-        resolve("Finish checking");
-      })
+  var SqlUpdateBook = sqlString.format("Call USP_UpdateBook(?,?,?,?,?,?)",dataBook);
+  var SqlUpdateBookAuthor = sqlString.format("Call USP_UpdateBookAuthor(?,?)",dataBookAuthor);
+
+  db.executeQuerry(SqlUpdateBook)
+    .then(() => {
+      return db.executeQuerry(SqlUpdateBookAuthor)
     })
-  })();
-
-  if(isExist){
-    //Update book first
-    const UpdateBookFirst = await (() => {
-      return new Promise((resolve, reject) => {
-        conn.query(StringUpdateBook, function(err, result, fields) {
-          if(err){
-            throw reject(callBack(isUpdated));
-          }
-          resolve("Finish update book");
-        })
-      })
-    })();
-    
-    //then
-    updateData.DanhSachTacGia.map(function await(DanhSachTacGia) {
-      let qr = sqlString.format(
-        `CALL USP_UpdateBookAuthor(${updateData.MaSach},${DanhSachTacGia.MaTacGia});`
-      );
-      conn.query(qr, (error, response) => {
-        if (error) {
-          callBack(false)
-        } else {
-          callBack(true)
-        }
-      });
-    });
-  }
-  else{
-    callBack(isUpdated)
-  }
+    .then((rs) => callBackrs(rs))
+    .catch((err)=> callBackerr(err))
   
+  // console.log(SqlUpdateBook);
+  // console.log(SqlUpdateBookAuthor);
+  // console.log(SqlCheckExist);
 };
 
 module.exports = Book;

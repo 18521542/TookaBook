@@ -61,37 +61,6 @@ const addBook = async (req, res) => {
     })
 };
 
-// @desc    Create a new book
-// @route   POST /api/books
-// @access  Public
-const updateBook = async (req, res) => {
-  const { bookID } = req.params.id;
-
-  const bookExists = await Book.findById(bookID, (result) => {
-    if (result) {
-      const bookData = {
-        MaSach: req.body.MaSach,
-        TenSach: req.body.TenSach,
-        MaTheLoai: parseInt(req.body.MaTheLoai),
-        NhaXuatBan: req.body.NhaXuatBan,
-        NamXuatBan: parseInt(req.body.NamXuatBan),
-        MaTacGia: req.body.MaTacGia,
-      };
-      Book.updateBook(bookData, (result) => {
-        if (result) {
-          res.send(JSON.stringify(result));
-        } else {
-          res.status(500);
-          throw new Error("Update failed");
-        }
-      });
-    } else {
-      res.status(404);
-      throw new Error("Product not found");
-    }
-  });
-};
-
 const UpdateBook = async (req,res) => {
   if(req.body.constructor === Object && Object.keys(req.body).length === 0){
     res.status(404);
@@ -106,30 +75,20 @@ const UpdateBook = async (req,res) => {
     MaTheLoai: parseInt(req.body.MaTheLoai),
     NhaXuatBan: req.body.NhaXuatBan,
     NamXuatBan: parseInt(req.body.NamXuatBan),
-    DanhSachTacGia: req.body.DanhSachTacGia,
+    MaTacGia: req.body.MaTacGia,
+    URL: req.body.URL
   };
 
-  // var updateResult = false;
-  // const UpdateBookFirst = await (() => {
-  //   return new Promise((resolve, reject) => {
-  //     Book.UpdateBook(Data, (result) => {
-  //       updateResult = result;
-  //       console.log(result)
-  //       //console.log(updateResult)
-  //       resolve("Finish updating")
-  //     })
-  //   })
-  // })();
-  await Book.UpdateBook(Data, (result) =>{
-    if(result){
-      if(!res.headersSent){
-        res.status(200).send({message:"Update success"});
-      }
-    }
-    else{
-      res.status(404).send({message:"Update fail"});
-    }
-  })
+ 
+  
+  Book.updateBook(Data, 
+    (result) => {
+      res.status(200).send({message:"Update book success"});
+    },
+    (err) => {
+      console.log(err)
+      res.status(404).send({message:"Update book failed"});
+    })
 }
 
-module.exports = { getBook, getBookById, addBook, updateBook, UpdateBook };
+module.exports = { getBook, getBookById, addBook, UpdateBook };

@@ -41,27 +41,30 @@ exports.searchCustomer = (id,callBack) => {
 }
 
 // Update the customer in the DataBase
-exports.updateCustomer = (id,updateCustomer, callBack) => {
+exports.updateCustomer = (id,updateCustomer,callBack) => {
   if (id == null) return;
   var conn = db.getConnection();
   const dataCustomer = [
+    id,
     updateCustomer.TenKhachHang,
     updateCustomer.DiaChi,
     updateCustomer.SoDienThoai,
     updateCustomer.Email,
   ];
-  var queryString = sqlString.format('CALL USP_GetCustomerByID(?)',id);
-  conn.query(sql, function(err,result, fields) {
+  var queryString = SqlString.format('CALL USP_GetCustomerByID(?)',id);
+  conn.query(queryString, function(err,result, fields) {
     if (err)
       throw err;
-    if (!result)
-      callBack({message: "Customer is not found"});
     if (result[0].length) {
-      console.log("Found customer:", res[0][0]);
+      sql = SqlString.format('CALL USP_UpdateCusTomer(?,?,?,?,?)', dataCustomer);
+      conn.query(sql,function(err,result,fields){
+         if (err) throw err;
+         callBack({message: "Update successfully!"});
+      });
     }
-
+    else {
+      callBack({message: "Customer is not found"});
+    }
   });
-  sql = sqlString.format('CALL USP_UpdateCusTomer(?,?,?,?)', dataCustomer);
-
 
 }

@@ -30,7 +30,7 @@ module.exports = {
   // Handle for geting all of the lists of the customers
   getList: function(req,res) {
      customerApi.getCustomers(
-       (result) => res.send(JSON.stringify(result)),
+       (result) => res.send(result[0]),
     );
   },
 
@@ -52,7 +52,14 @@ module.exports = {
   },
 
   // Update the customer
-  patchUpdate: function(req,res) {
-    // sth in here (not done)
+  patchUpdate: async function(req,res) {
+    const customerId = req.params.id;
+    const updateCustomer = {
+      TenKhachHang: req.body.TenKhachHang,
+      DiaChi: req.body.DiaChi,
+      SoDienThoai: req.body.SoDienThoai,
+      Email: req.body.Email
+    }
+    customerApi.updateCustomer(customerId,updateCustomer,result => res.send(result));
   }
 };

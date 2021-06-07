@@ -58,9 +58,6 @@ const addBook = async (req, res) => {
       console.log(err)
       res.status(404).send({message:"Add book failed"})
     })
-
-  
-  //.jsawait Book.addBook(bookData, (result) => {});
 };
 
 // @desc    Create a new book

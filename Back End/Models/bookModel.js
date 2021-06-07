@@ -6,32 +6,33 @@ const { json } = require("body-parser");
 const Book =  {
 };
 
-Book.addBook= (newBook, result) => {
+Book.addBook= (newBook, callBackrs, callbackerr) => {
   var conn = db.getConnection();
   var dataBook = [
     newBook.TenSach,
     newBook.MaTheLoai,
     newBook.NhaXuatBan,
     newBook.NamXuatBan,
-    newBook.MaTacGia,
+    newBook.MaTacGia
   ];
-
-  
-
   //Todo: Need to check if this book is already created
-
   var queryString = sqlString.format(
-    "CALL USP_AddBook(?,?,?,?); CALL USP_AddBookAuthor(?)",
+    "CALL USP_AddBook(?,?,?,?);CALL USP_AddBookAuthor(?)",
     dataBook
   );
-  conn.query(queryString, (err, res) => {
-    if (err) {
-      //Todo: Handle error
-      throw err;
-    } else {
-      console.log(`Created book ${newBook.TenSach} successfully`);
-    }
-  });
+
+  let ArrTwoStringSql = queryString.split(";")
+
+  let StringAddBook = ArrTwoStringSql[0];
+  let StringAddBookAuthor = ArrTwoStringSql[1];
+  let StringAddURL = sqlString.format("CALL USP_AddBookURL(?)", newBook.Link);
+
+  db.executeQuerry(StringAddBook)
+    .then(() => { return db.executeQuerry(StringAddBookAuthor); })
+    .then(() => { return db.executeQuerry(StringAddURL); })
+    .then((result) => callBackrs(result))
+    .catch((err) => callbackerr(err))
+  
 };
 
 Book.getBookById = (maSach, callBack) => {

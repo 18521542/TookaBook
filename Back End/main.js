@@ -13,12 +13,14 @@ const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
 var colors = require("colors");
 const CategoryRoutes = require("./Routes/CategoryRoutes");
+const cors = require("cors");
 //init server by express
 var app = express();
 
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 //config port
 

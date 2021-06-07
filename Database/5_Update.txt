@@ -1,0 +1,29 @@
+CREATE TABLE SACH_URL
+(
+	MaSach INT primary key,
+	URL NVARCHAR(100)
+);
+
+DELIMITER $$
+CREATE PROCEDURE USP_AddBookURL(ValueURL NVARCHAR(100))
+BEGIN
+	declare bookID int;
+    set bookID=(select max(MaSach) from SACH);
+	insert SACH_URL values(bookID,ValueURL);
+END; $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS USP_GetBook; 
+DELIMITER $$
+CREATE PROCEDURE USP_GetBook()
+BEGIN
+	select s.MaSach,ct.MaTacGia, tg.TenTacGia, s.TenSach, s.MaTheLoai, tl.TenTheLoai, s.NhaXuatBan, s.NamXuatBan, s.SoLuongTon, s.DonGiaNhap, srl.URL 
+    from 
+	    SACH s JOIN ct_tacgia ct on s.MaSach = ct.MaSach 
+        JOIN tacgia tg on tg.MaTacGia = ct.MaTacGia
+        JOIN theloaisach tl on s.MaTheLoai = tl.MaTheLoai 
+	    LEFT JOIN sach_url srl ON s.MaSach = srl.MaSach
+        
+    GROUP by s.MaSach;
+END; $$
+DELIMITER ;

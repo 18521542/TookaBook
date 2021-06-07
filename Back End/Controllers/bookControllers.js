@@ -40,8 +40,6 @@ const addBook = async (req, res) => {
     });
   }
 
-  // Find book by name????
-
   //Create new book
   const bookData = {
     TenSach: req.body.TenSach,
@@ -49,9 +47,17 @@ const addBook = async (req, res) => {
     NhaXuatBan: req.body.NhaXuatBan,
     NamXuatBan: parseInt(req.body.NamXuatBan),
     MaTacGia: req.body.MaTacGia,
+    Link: req.body.URL,
   };
-  //console.log(bookData);
-  await Book.addBook(bookData, (result) => {});
+  
+  Book.addBook(bookData, 
+    (rs) => {
+      res.status(200).send({message: "Add Book success",});
+    },
+    (err) => {
+      console.log(err)
+      res.status(404).send({message:"Add book failed"})
+    })
 };
 
 // @desc    Create a new book

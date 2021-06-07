@@ -1,0 +1,14 @@
+CREATE TABLE SACH_URL
+(
+	MaSach INT primary key,
+	URL NVARCHAR(100)
+);
+
+DELIMITER $$
+CREATE PROCEDURE USP_AddBookURL(ValueURL NVARCHAR(100))
+BEGIN
+	declare bookID int;
+    set bookID=(select max(MaSach) from SACH);
+	insert SACH_URL values(bookID,ValueURL);
+END; $$
+DELIMITER ;

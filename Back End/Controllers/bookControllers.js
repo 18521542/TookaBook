@@ -19,14 +19,15 @@ const getBook = async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Public
 const getBookById = async (req, res) => {
-  await Book.getBookById(req.params.id, (result) => {
-    if (result) {
-      res.send(JSON.stringify(result));
-    } else {
-      res.status(404);
-      throw new Error("Product not found");
-    }
-  });
+
+  var bookID = req.params.id;
+  Book.getBookById(bookID, 
+    (result) => {
+        res.status(200).send(result);
+    },
+    (err) => {
+        res.status(404).send({message: "Not found"});
+    })
 };
 
 // @desc    Create a new book

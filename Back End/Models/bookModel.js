@@ -35,25 +35,13 @@ Book.addBook= (newBook, callBackrs, callbackerr) => {
   
 };
 
-Book.getBookById = (maSach, callBack) => {
+Book.getBookById = (maSach, callBackrs, callbackerr) => {
   var conn = db.getConnection();
   var queryString = sqlString.format(`CALL USP_GetBookByID(${maSach})`);
 
-  
-  var listAuthors = [];
-  Author.getAuthorByBookID(maSach, (result)=>{
-    listAuthors = JSON.parse(JSON.stringify(result[0]));
-  })
-
-  conn.query(queryString, (err, res) => {
-    if (err) {
-      throw err;
-    }
-    if (res[0].length) {
-      res[0][0]["DanhSachTacGia"] = listAuthors
-      callBack(res[0][0]);
-    }
-  });
+  db.executeQuerry(queryString)
+    .then((rs)=>callBackrs(rs[0]))
+    .catch((err)=>callbackerr(err))
 };
 
 // Fetch all book in DataBase

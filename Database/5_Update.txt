@@ -27,3 +27,18 @@ BEGIN
     GROUP by s.MaSach;
 END; $$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS USP_GetBookByID; 
+DELIMITER $$
+CREATE PROCEDURE USP_GetBookByID(bookID int)
+BEGIN
+	select s.MaSach,ct.MaTacGia, tg.TenTacGia, s.TenSach, s.MaTheLoai, tl.TenTheLoai, s.NhaXuatBan, s.NamXuatBan, s.SoLuongTon, s.DonGiaNhap, srl.URL 
+    from 
+	    SACH s JOIN ct_tacgia ct on s.MaSach = ct.MaSach 
+        JOIN tacgia tg on tg.MaTacGia = ct.MaTacGia
+        JOIN theloaisach tl on s.MaTheLoai = tl.MaTheLoai 
+	    LEFT JOIN sach_url srl ON s.MaSach = srl.MaSach
+    where s.MaSach = bookID    
+    GROUP by s.MaSach;
+END; $$
+DELIMITER ;

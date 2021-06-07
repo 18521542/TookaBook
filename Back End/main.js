@@ -5,6 +5,7 @@ var BookApi = require("./Routes/bookRoutes");
 var BillApi= require("./Routes/billRoutes");
 var CustomerRoute = require("./Routes/CustomerRoute")
 var ReportRoute = require("./Routes/ReportRoute")
+var PaymentApi= require("./Routes/PaymentRoute")
 var AuthorApi = require("./Routes/AuthorRoutes")
 var ImportBookApi = require("./Routes/ImportBookRoutes")
 var db = require("./Models/DatabaseAccessHelper");
@@ -35,6 +36,7 @@ CustomerRoute(app);
 ReportRoute(app);
 CategoryRoutes(app);
 AuthorApi(app);
+PaymentApi(app);
 ImportBookApi(app);
 //Middleware
 //app.use(notFound);

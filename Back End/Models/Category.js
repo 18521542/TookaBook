@@ -1,5 +1,5 @@
 var db = require("./DatabaseAccessHelper");
-var sqlString = require("sqlString")
+var sqlString = require("sqlstring")
 
 exports.getCategories = function(callBack){
     var conn = db.getConnection();

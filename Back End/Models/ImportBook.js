@@ -1,5 +1,5 @@
 var db = require("./DatabaseAccessHelper");
-var sqlString = require("sqlString");
+var sqlString = require("sqlstring");
 
 const addImportBook = function (data, callBackrs, callbackerr) {
     db.connect();

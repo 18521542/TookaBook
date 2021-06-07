@@ -1,5 +1,5 @@
 var db = require ('./DatabaseAccessHelper')
-var SqlString = require('sqlString');
+var SqlString = require('sqlstring');
 
 //Handle for creating the reporting
 exports.getRevenueReport = async (date, callBack) => {

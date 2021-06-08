@@ -24,7 +24,8 @@ const createBill = async (req, res) => {
 };
 
 const getBill = (req, res) => {
-  
+  Bill.getBill(rs => { res.status(200).send(rs); },
+              (err => {console.log(err); res.status(404).send({message: "Not found"})}))
 }
 
 const getBillByCustomerID = (req,res) => {

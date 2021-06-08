@@ -63,4 +63,14 @@ Bill.GetBillInfoByBillID = (id, callbackrs, callbackerr) => {
     .catch((err) => callbackerr(err))
 }
 
+Bill.getBill = (callbackrs, callbackerr) => {
+  db.connect();
+
+  var sql = "SELECT * from hoadon hd join khachhang on hd.MaKhachHang = khachhang.MaKhachHang";
+
+  db.executeQuerry(sql)
+    .then( (rs) => callbackrs(rs) )
+    .catch((err) => callbackerr(err))      
+}
+
 module.exports = Bill;

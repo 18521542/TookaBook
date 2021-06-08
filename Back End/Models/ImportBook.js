@@ -20,6 +20,7 @@ const addImportBook = function (data, callBackrs, callbackerr) {
             BookInfo.map(function (eachQueryString){
                 return db.executeQuerry(eachQueryString)
             })
+            //.catch((err) => callbackerr(err))
         })
         .then((rs) => callBackrs(rs))
         .catch((err) => callbackerr(err))

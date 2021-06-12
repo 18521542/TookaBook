@@ -53,8 +53,8 @@ BEGIN
     where MaSach=id;
     
     delete from sach_url WHERE MaSach = id;
-	insert into sach_url values (id, newURL);  
-    
+	insert into sach_url values (id, newURL);
+
     delete from CT_TACGIA where MaSach=id;
 END; $$
 DELIMITER ;

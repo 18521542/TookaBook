@@ -30,8 +30,9 @@ module.exports = {
   // Handle for geting all of the lists of the customers
   getList: function(req,res) {
      customerApi.getCustomers(
-       (result) => res.send(JSON.stringify(result)),
-    );
+       rs => res.status(200).send(rs),
+       err => res.status(404).send({message:"Not found"})
+     )
   },
 
   // Search id of the customer

@@ -36,4 +36,12 @@ const getImportBookByID = function(data, callBackrs, callbackerr){
         .catch((err) => callbackerr(err))
 }
 
-module.exports = {addImportBook, getImportBookByID};
+const getImportBook = (callBackrs, callbackerr) => {
+
+    let sql = "Select * from PhieuNhapSach";
+    db.executeQuerry(sql)
+        .then((rs) => callBackrs(rs))
+        .catch((err) => callbackerr(err))
+}
+
+module.exports = {addImportBook, getImportBookByID, getImportBook};

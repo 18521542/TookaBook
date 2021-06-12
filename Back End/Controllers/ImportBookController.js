@@ -35,4 +35,12 @@ const addImportBooks = function(req,res){
         });
 }
 
-module.exports = { getImportBookByID, addImportBooks }
+const getImportBooks = (req,res) => {
+
+    importBook.getImportBook(   
+        rs => res.status(200).send(rs),
+        err => res.status(400).send({message: "Not found"})
+    )
+}
+
+module.exports = { getImportBookByID, addImportBooks, getImportBooks }

@@ -8,6 +8,7 @@ var ReportRoute = require("./Routes/ReportRoute")
 var PaymentApi= require("./Routes/PaymentRoute")
 var AuthorApi = require("./Routes/AuthorRoutes")
 var ImportBookApi = require("./Routes/ImportBookRoutes")
+var RulesApi = require("./Routes/RuleRoutes")
 var db = require("./Models/DatabaseAccessHelper");
 const bodyParser = require("body-parser");
 var notFound = require("./middleware/errorMiddleware");
@@ -40,6 +41,7 @@ CategoryRoutes(app);
 AuthorApi(app);
 PaymentApi(app);
 ImportBookApi(app);
+RulesApi(app);
 //Middleware
 //app.use(notFound);
 

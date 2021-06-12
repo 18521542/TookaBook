@@ -21,5 +21,28 @@ module.exports = {
   update: function(req,res)
   {
     console.log("this is an area for update account service")
+  },
+
+  getAccountList: (req,res)=>{
+    account.getAccountList(   
+        rs => res.status(200).send(rs),
+        err => res.status(400).send({message: "Not found"})
+    )
+  },
+
+  addAccount: (req,res) => {
+    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+      res.status(404);
+      res.send({message:"content could not be empty"});
+      return
+    }
+
+    var data = req.body;
+
+    account.addAccount(
+        data,   
+        rs => res.status(200).send({message: "Add account success"}),
+        err => res.status(400).send({message: "Add account fail"})
+    )
   }
 };

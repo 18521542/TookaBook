@@ -59,3 +59,20 @@ exports.addAccount = (data, callBackrs, callbackerr) => {
         .then(rs => callBackrs(rs))
         .catch(err => callbackerr(err))
 }
+
+exports.UpdateAccount = (data, callBackrs, callbackerr) => {
+    var AccountInfo = [
+        data.username,
+        data.password,
+        data.type,
+        data.realname,
+        data.PhoneNumber,
+        data.Email,
+        data.Address
+      ];
+    
+    let sql = sqlString.format("Call USP_UpdateAccountByUsername(?,?,?,?,?,?,?)", AccountInfo);
+    db.executeQuerry(sql)
+        .then(rs => callBackrs(rs))
+        .catch(err => callbackerr(err))
+}

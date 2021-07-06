@@ -25,40 +25,40 @@ const createBill = async (req, res) => {
 
 const getBill = (req, res) => {
   Bill.getBill(rs => { res.status(200).send(rs); },
-              (err => {console.log(err); res.status(404).send({message: "Not found"})}))
+    (err => { console.log(err); res.status(404).send({ message: "Not found" }) }))
 }
 
-const getBillByCustomerID = (req,res) => {
-  if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+const getBillByCustomerID = (req, res) => {
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(404);
-    res.send({message:"content could not be empty"});
+    res.send({ message: "content could not be empty" });
     return
   }
 
   var CusID = req.body.CusID;
-  Bill.GetBillByCustomerID(CusID, 
+  Bill.GetBillByCustomerID(CusID,
     (result) => {
-        res.status(200).send(result);
+      res.status(200).send(result);
     },
     (err) => {
-        res.status(404).send({message: "Not found"});
+      res.status(404).send({ message: "Not found" });
     })
 }
 
 const getBillByBillID = (req, res) => {
-  if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(404);
-    res.send({message:"content could not be empty"});
+    res.send({ message: "content could not be empty" });
     return
   }
 
   var BillID = req.body.BillID;
-  Bill.GetBillInfoByBillID(BillID, 
+  Bill.GetBillInfoByBillID(BillID,
     (result) => {
       res.status(200).send(result);
     },
-    (err) =>{
-      res.status(404).send({message: "Not found"});
+    (err) => {
+      res.status(404).send({ message: "Not found" });
     })
 };
 

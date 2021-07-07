@@ -522,12 +522,11 @@ BEGIN
     update KHACHHANG set SoTienNo=SoTienNo-money where MaKhachHang=customerID;
 END; $$
 DELIMITER ;
-DELIMITER $$
+-- DELIMITER $$
 
-END;
-DELIMITER ;
+-- END;
+-- DELIMITER ;
 DELIMITER $$
-
 CREATE TABLE QUYDINH
 (
 	LuongNhapToiThieu INT NOT NULL ,
@@ -535,6 +534,8 @@ CREATE TABLE QUYDINH
 	LuongTonSauKhiBan INT NOT NULL ,
 	TienNoToiDa INT NOT NULL
 );
+END; $$
+DELIMITER ;
 
 insert into QUYDINH values (0,0,0,0);
 

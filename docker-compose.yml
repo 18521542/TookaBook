@@ -1,3 +1,31 @@
 version: "3"
 networks: 
-    app-network: null
+    my-app-network: null
+
+services: 
+    my-node-app:
+        build: 
+            context: ./Back End
+            dockerfile: Dockerfile
+        ports: 
+            - 1234:3323
+        volumes: 
+            - ./Back End:/app
+            - "/app/node_modules"
+        networks: 
+            - my-app-network
+        environment: 
+            - PORT=3323
+            - DB_HOST=my-database-for-node-app
+            - DB_USER=root
+            - DB_PASSWORD=
+        depends_on: 
+            - my-database-for-node-app
+###################################################################
+    my-database-for-node-app:
+        build: 
+            context: ./Database
+            dockerfile: Dockerfile
+        networks: 
+            - my-app-network
+    

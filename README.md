@@ -1,5 +1,5 @@
 # Introduction
-This is a Back-end project for website TookaBook. If you want to view Front-end code, please take a look at this [repository](https://github.com/nguyentan2212/tooka-book).
+This is a Back-end project for website TookaBook. If you want to view Front-end code, please take a look at this [repository](https://github.com/nguyentan2212/tooka-book) or if you want [full-demo](https://www.youtube.com/watch?v=2dr_3oFWLtw) for our website.
 # Dev Team
 - Trong Tran Duy (Leader).
 - [Tri Tran Huu](https://github.com/huutri148).
